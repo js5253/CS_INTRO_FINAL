@@ -21,7 +21,7 @@ class WUF:
             iTree = {}
 
         self.tree = iTree
-            
+
     def getRoot(self, uid: str) -> str:
         """returns the root of the union the id is in
 
