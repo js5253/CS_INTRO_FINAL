@@ -7,7 +7,7 @@ class WUF:
     tree = {}
     """The tree is used to store the data."""
 
-    def __init__(self, iTree: dict[str, Pair]=None):
+    def __init__(self, iTree: dict[str, Pair] = None):
         """initializes the WUF.
 
         A fairly standard __init__ function to initliaze the data necessary for the WUF.
@@ -22,21 +22,21 @@ class WUF:
 
         self.tree = iTree
             
-    def getRoot(self, id: str) -> str:
+    def getRoot(self, uid: str) -> str:
         """returns the root of the union the id is in
 
         This function traverses the tree in order to find the root of the union that ID is a part of.
 
         :param self: self
-        :param id: the Student ID to retrieve the union for
-        :type id: str
+        :param uid: the Student ID to retrieve the union for
+        :type uid: str
         :returns: the root student ID in the union
         :rtype: str
         """
 
-        root = id
-        while (root != tree[root][0]):
-            root = tree[root][0]
+        root = uid
+        while root != self.tree[root][0]:
+            root = self.tree[root][0]
 
         return root
 
@@ -54,14 +54,15 @@ class WUF:
         :type q: str
         """
 
-        pRoot = getRoot(p)
-        qRoot = getRoot(q)
+        pRoot = self.getRoot(p)
+        qRoot = self.getRoot(q)
 
-        if (pRoot == qRoot) return
+        if pRoot == qRoot:
+            return
 
-        if (tree[qRoot][1] > tree[pRoot][1]):
-            tree[pRoot][0] = qRoot
-            tree[qRoot][1] += tree[pRoot][1]
+        if self.tree[qRoot][1] > self.tree[pRoot][1]:
+            self.tree[pRoot][0] = qRoot
+            self.tree[qRoot][1] += self.tree[pRoot][1]
         else:
-            tree[qRoot][0] = pRoot
-            tree[pRoot][1] += tree[qRoot][1]
+            self.tree[qRoot][0] = pRoot
+            self.tree[pRoot][1] += self.tree[qRoot][1]

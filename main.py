@@ -2,6 +2,24 @@ import csv
 # import person
 # import WUF
 
+
+
+''' CSV FORMAT
+EXPOSURE_ID, PERSON, EXPOSURE_DATE, EXPOSURE_TIME, 
+OR: STUDENT_ID, STUDENT_NAME, EXPOSURE_DATE, EXPOSURE_TIME, EXPOSURE_LOCATION'''
+
+
+''' JSON FORMAT
+    {
+        Student_ID:
+        Student_Name:
+        Exposure: [
+                [Monday, [Gym, Library], [Greg]],
+                [Tuesday, [Bank], [Tom]]
+        ]
+    }
+'''
+
 def getUserInput():
     # function should ask user where they went - not sure about granularity yet; example specifies particular buildings
     lastVisited = []
@@ -12,8 +30,11 @@ def getUserInput():
         lastVisited.append(response)
 
         print(lastVisited)
-    # unless we do some fancy NLP stuffS, the format will most likely be like: 7-9; 1-3; etc.
     dayExposed = input("What day did you become exposed?")
+    # unless we do some fancy NLP stuffS, the format will most likely be like: 7-9; 1-3; etc.
+
+
+
     othersExposed = []
     while True:
         response = input("Who do you remember was with you? ")
