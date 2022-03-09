@@ -1,7 +1,7 @@
 class WUF:
     """This class implements the Weighted Union Find (WUF) data structure for contact tracing """
 
-    Pair = tuple(str, int)
+    Pair = tuple[str, int]
     """A data type used to combine the root and size information into a single location."""
 
     tree = {}
