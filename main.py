@@ -6,7 +6,7 @@ import csv
 
 ''' CSV FORMAT
 EXPOSURE_ID, PERSON, EXPOSURE_DATE, EXPOSURE_TIME, 
-OR: STUDENT_ID, STUDENT_NAME, EXPOSURE_DATE, EXPOSURE_TIME, EXPOSURE_LOCATION'''
+OR: STUDENT_ID, STUDENT_NAME, EXPOSURE_DATE, EXPOSURE_LOCATION'''
 
 
 ''' JSON FORMAT
@@ -20,33 +20,46 @@ OR: STUDENT_ID, STUDENT_NAME, EXPOSURE_DATE, EXPOSURE_TIME, EXPOSURE_LOCATION'''
     }
 '''
 
+'''General function to get input making sure it is of a specific type'''
+def inputType(prompt, inputType, is_list = False):
+    responseList = []
+    while True:
+        response = input(prompt)
+        if response == "that's it": break
+        try:
+            resp = inputType(response)
+            if is_list:
+                responseList.append(resp)
+            else:
+                return resp
+        except BaseException:
+            print("This is not " + inputType + " data")
+    return responseList
+
+
 def getUserInput():
     # function should ask user where they went - not sure about granularity yet; example specifies particular buildings
     lastVisited = []
-    while True:
-        response = input("Where do you remember visiting the last week? ")
-        if response == "that's it":
-            break
-        lastVisited.append(response)
+    responses = inputType("Where do you remember visiting the last week? Enter one individual place and then press enter/return", str, True)
+    print(responses)
+    dayExposed = inputType("What day did you become exposed?", int, False)
 
-        print(lastVisited)
-    dayExposed = input("What day did you become exposed?")
-    # unless we do some fancy NLP stuffS, the format will most likely be like: 7-9; 1-3; etc.
-
-
-
-    othersExposed = []
-    while True:
-        response = input("Who do you remember was with you? ")
-        if response == "that's it":
-            break
-        othersExposed.append(response)
+    othersExposed = inputType("Who do you remember was with you?", str, True)
 
     
     pass
 
 def inputData():
     pass
+
+'''Boilerplate code while we figure out how to write things.'''
+def writeFile(fileName):
+    with open(fileName, 'n') as file:
+        fieldNames = []
+        writer = csv.DictWriter(file, fieldnames=fieldNames)
+        writer.writeheader()
+
+
 
 def readFile(fileName):
     with open(fileName, 'r') as file:
