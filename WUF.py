@@ -20,6 +20,23 @@ class WUF:
         self.tree: dict[str, WUF.Pair] = iTree
         """Used to store the WUF tree with the student ID and it's corresponding root information."""
 
+    def addRoot(self, uid: str) -> bool:
+        """returns whether the operation was successful
+
+        Adds a new root to the tree with its root set to self (meaning it's top level) and with a size of one.
+
+        :param self: self
+        :param uid: the Student ID to add to the tree
+        :type uid: str
+        :returns: whether the operation succeeded
+        :rtype: bool
+        """
+        if uid not in self.tree:
+            self.tree[uid] = [uid, 1]
+            return True
+
+        return False
+
     def getRoot(self, uid: str) -> str:
         """returns the root of the union the id is in
 
