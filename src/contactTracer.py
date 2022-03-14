@@ -1,4 +1,4 @@
-import WUF
+import lib.WUF as WUF
 
 
 class ContactTracer:
