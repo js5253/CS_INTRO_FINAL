@@ -20,6 +20,46 @@ class WUF:
         self.tree: dict[str, WUF.Pair] = iTree
         """Used to store the WUF tree with the student ID and it's corresponding root information."""
 
+    def __eq__(self, other: "WUF") -> bool:
+        """returns if two WUF objects have the same tree
+
+        :param self: self
+        :param other: the WUF object to compare to
+        :type other: WUF
+        :returns: if the two trees are equal
+        :rtype: bool
+        """
+        return self.tree == other.tree
+
+    def __len__(self) -> int:
+        """returns the size of the tree
+
+        :param self: self
+        :returns: the length of the tree
+        :rtype: int
+        """
+
+        return len(self.tree)
+
+    def __iter__(self):
+        """returns the tree to use as an iterable
+
+        :param self: self
+        :returns: the tree iterator
+        """
+        return self.tree.__iter__()
+
+    def __getitem__(self, item: int) -> Pair:
+        """returns the value in tree at index item
+
+        :param self: self
+        :param item: the index to find the value at
+        :type item: int
+        :returns: the value in tree at item
+        :rtype: list[str, int]
+        """
+        return self.tree[item]
+
     def addRoot(self, uid: str) -> bool:
         """returns whether the operation was successful
 
@@ -48,6 +88,8 @@ class WUF:
         :returns: the root student ID in the union
         :rtype: str
         """
+        if uid not in self.tree:
+            raise IndexError(f"{uid} is not in the tree")
 
         root = uid
         while root != self.tree[root][0]:
@@ -100,7 +142,8 @@ class WUF:
 
         if self.tree[qRoot][1] > self.tree[pRoot][1]:
             self.tree[pRoot][0] = qRoot
-            self.tree[qRoot][1] += self.tree[pRoot][1]
         else:
+            if self.tree[pRoot][1] == self.tree[qRoot][1]:
+                self.tree[pRoot][1] += self.tree[qRoot][1]
+
             self.tree[qRoot][0] = pRoot
-            self.tree[pRoot][1] += self.tree[qRoot][1]

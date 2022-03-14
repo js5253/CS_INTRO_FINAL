@@ -61,6 +61,9 @@ class ContactTracer:
         :type dataList: list[ContactTracer.PersonData]
         """
         for person in dataList:
+            if len(person) != 2:
+                raise ValueError("Please the data in the proper format.")
+
             self.addPerson(person[0], person[1])
 
     def trace(self) -> None:
@@ -76,7 +79,13 @@ class ContactTracer:
         :param self: self
         """
         for person in self.people:
+            if person not in self.union.tree:
+                self.union.addRoot(person)
+
             for day in self.people[person]:
+                if len(self.people[person][day]) != 2:
+                    raise ValueError(f"{person} has incomplete data on {day}")
+
                 for peeps in self.people[person][day][0]:
                     if peeps not in self.union.tree:
                         self.union.addRoot(peeps)
