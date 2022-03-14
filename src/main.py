@@ -1,8 +1,9 @@
 import csv
+import json
 # import person
 # import WUF
 
-
+FILE_NAME =  "tracing.json"
 
 ''' CSV FORMAT
 EXPOSURE_ID, PERSON, EXPOSURE_DATE, EXPOSURE_TIME, 
@@ -20,11 +21,13 @@ OR: STUDENT_ID, STUDENT_NAME, EXPOSURE_DATE, EXPOSURE_LOCATION'''
     }
 '''
 
+database = []
+
 '''General function to get input making sure it is of a specific type'''
 def inputType(prompt, inputType, is_list = False):
     responseList = []
     while True:
-        response = input(prompt)
+        response = input(prompt + " ")
         if response == "that's it": break
         try:
             resp = inputType(response)
@@ -37,41 +40,51 @@ def inputType(prompt, inputType, is_list = False):
     return responseList
 
 
-def getUserInput():
+def getUserInput(person):
     # function should ask user where they went - not sure about granularity yet; example specifies particular buildings
-    lastVisited = []
-    responses = inputType("Where do you remember visiting the last week? Enter one individual place and then press enter/return", str, True)
-    print(responses)
+    locationExposed = inputType("Where do you remember visiting the last week? Enter one individual place and type \"that's it\"", str, True)
     dayExposed = inputType("What day did you become exposed?", int, False)
-
     othersExposed = inputType("Who do you remember was with you?", str, True)
 
+    if len(othersExposed) > 0:
+        getSecondaryContact(othersExposed)
     
-    pass
 
+    database.append([person, dayExposed, locationExposed, othersExposed])
+    pass
+def getSecondaryContact(othersExposed):
+    for person in othersExposed: 
+        print("The next questions are for ", person, ":")
+        getUserInput(person)
 def inputData():
     pass
 
 '''Boilerplate code while we figure out how to write things.'''
-def writeFile(fileName):
-    with open(fileName, 'n') as file:
-        fieldNames = []
-        writer = csv.DictWriter(file, fieldnames=fieldNames)
-        writer.writeheader()
+def writeToFile(fileName):
+    with open(fileName, 'w') as file:
+        file.write("[")
+        for entry in database:
+            json_obj = json.dumps({
+                "name": entry[0],
+                "day_exposed": entry[1],
+                "locations": entry[2],
+                "people_contacted": entry[3]
+            })
+            file.write(json_obj + ", ")
+        file.write("]")
+        file.close()
 
+# def readFile(fileName):
+#     with open(fileName, 'w') as file:
+#         reader = csv.DictReader(file)
 
+#         # do processing here
+#     pass
 
-def readFile(fileName):
-    with open(fileName, 'r') as file:
-        reader = csv.DictReader(file)
-
-        # do processing here
-    pass
-
-def getPotentialExposure():
-    pass
+# def getPotentialExposure():
+#     pass
     
-
 # testing app
 if __name__ == "__main__":
-    getUserInput()
+    getUserInput(inputType("What is your name?", str))
+    writeToFile(FILE_NAME)
