@@ -49,12 +49,12 @@ class WUF:
         """
         return self.tree.__iter__()
 
-    def __getitem__(self, item: int) -> Pair:
+    def __getitem__(self, item: str) -> Pair:
         """returns the value in tree at index item
 
         :param self: self
         :param item: the index to find the value at
-        :type item: int
+        :type item: str
         :returns: the value in tree at item
         :rtype: list[str, int]
         """
