@@ -40,8 +40,8 @@ def inputType(prompt, inputType, is_list = False):
     return responseList
 
 
-def getUserInput(person):
-    # function should ask user where they went - not sure about granularity yet; example specifies particular buildings
+def getUserInput(person: str, name: str) -> None:
+    '''Function appends data into global "database."'''
     locationExposed = inputType("Where do you remember visiting the last week? Enter one individual place and type \"that's it\"", str, True)
     dayExposed = inputType("What day did you become exposed?", int, False)
     othersExposed = inputType("Who do you remember was with you?", str, True)
@@ -53,14 +53,13 @@ def getUserInput(person):
     database.append([person, dayExposed, locationExposed, othersExposed])
     pass
 def getSecondaryContact(othersExposed):
+    """Asks questions to secondary contacts"""
     for person in othersExposed: 
         print("The next questions are for ", person, ":")
         getUserInput(person)
-def inputData():
-    pass
 
-'''Boilerplate code while we figure out how to write things.'''
 def writeToFile(fileName):
+    '''Writes JSON to file name - default tracing.json'''
     with open(fileName, 'w') as file:
         file.write("[")
         for entry in database:
@@ -86,5 +85,5 @@ def writeToFile(fileName):
     
 # testing app
 if __name__ == "__main__":
-    getUserInput(inputType("What is your name?", str))
+    getUserInput(inputType("What is your name?", str), inputType("What is your student ID?", str))
     writeToFile(FILE_NAME)
