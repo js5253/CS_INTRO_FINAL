@@ -7,7 +7,7 @@ def getUidFromFile(filename):
     try:
         with open(filename, 'r') as file:
             return json.loads(file.read())
-    except:
+    except: # assume file either not found
         return {}  # file not found
 
 
@@ -22,3 +22,12 @@ def dumpUUIDtoFile(filename, idArray):
         file.write(json.dumps(idArray))
         file.close()
         return
+
+def writeToFile(fileName, database):
+    '''Writes JSON to file name - default tracing.json'''
+    with open(fileName, 'w') as file:
+        # file.write("[")
+        json_obj = json.dumps(database)
+        file.write(json_obj)
+        # file.write("]")
+        file.close()
