@@ -12,11 +12,15 @@ def getInput(personName: str, previousContact=None):
     days = {}
     placesBeen = []
     peopleEncountered = []
+    if previousContact:
+        placesBeen.append(previousContact[1])
+        locationString = "Where else do you remember visiting? Enter one place, or, if you haven't gone anywhere else, type that's it."
+    else:
+        locationString = "Where do you remember visiting last week? Make sure to only enter one place. We'll ask information about this place first. "
     while True:
         if personName not in UUIDMapping:
             UUIDMapping[personName] = str(getNewUUID())
-        location = input(
-            "Where do you remember visiting last week? Make sure to only enter one place. We'll ask information about this place first. ")
+        location = input(locationString)
         placesBeen.append(location)
         day = input('What day were you here? (Monday, Tuesday, etc...) ')
         if day.lower() not in ACCEPTABLE_DAYS:
@@ -33,7 +37,7 @@ def getInput(personName: str, previousContact=None):
             peopleEncountered.append(UUIDMapping[person])
         addMore = input("OK, have you gone more places? ")
         if addMore == "no":
-            days[day] = [location, peopleEncountered]
+            days[day] = [peopleEncountered, placesBeen]
             database.append([personName, UUIDMapping[personName], days])
             print(database)
             if len(peopleEncountered) > 0:
