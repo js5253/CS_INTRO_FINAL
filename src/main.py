@@ -1,4 +1,4 @@
-from lib.util import dumpUUIDtoFile, getNewUUID, getUidFromFile, writeToFile
+from lib.util import dumpUUIDtoFile, getNewUUID, getUidFromFile, searchByValue, writeToFile
 
 FILE_NAME = "tracing.json"
 ACCEPTABLE_DAYS = ['monday', 'tuesday', 'wednesday',
@@ -13,7 +13,6 @@ def getInput(personName: str, previousContact=None):
     placesBeen = []
     peopleEncountered = []
     if previousContact:
-        placesBeen.append(previousContact[1])
         locationString = "Where else do you remember visiting? Enter one place, or, if you haven't gone anywhere else, type that's it."
     else:
         locationString = "Where do you remember visiting last week? Make sure to only enter one place. We'll ask information about this place first. "
@@ -47,9 +46,9 @@ def getInput(personName: str, previousContact=None):
 
 def getSecondaryContact(othersExposed, additionalInformation):
     """Asks questions to secondary contacts"""
-    for person in othersExposed:
-        print("The next questions are for", person, ":")
-        getInput(person, additionalInformation)
+    for id in othersExposed:
+        print("The next questions are for", searchByValue(UUIDMapping, id), ":")
+        getInput(searchByValue(UUIDMapping, id), additionalInformation)
 
 
 if __name__ == "__main__":

@@ -31,3 +31,9 @@ def writeToFile(fileName, database):
         file.write(json_obj)
         # file.write("]")
         file.close()
+
+def searchByValue(dictToSearch: dict, val: object):
+    """Searches by value - somewhat inefficient as it uses loops."""
+    for name, value in dictToSearch.items():
+        if value == val:
+            return name

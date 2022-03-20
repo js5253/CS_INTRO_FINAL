@@ -1,19 +1,9 @@
 from datetime import date
 import json
+from lib.util import getUidFromFile, searchByValue
 from src.contactTracer import ContactTracer
 
-# def returnSimplifiedForm(complexData):
-#     # print(complexDa/ta)
-#     d = {}
-#     for day in complexData[2]:
-#         d[day] = complexData[2][day][1]
-#         print(d)
-        
-#     return {
-#         "id": complexData[1],
-#         "name": complexData[0],
-#         "days": d
-#     }
+UID_MAPPING = {}
 FILE_NAME = "tracing.json"
 def main():
     """Generates a report """
@@ -32,13 +22,14 @@ def main():
             # assume will always return the user, may also return students who they spread covid to
             content.pop(0)
             if len(content) >= 1:
-                print(f'Student {id} had contact with students {", ".join(content)} and could have spread COVID.')
+                print(f'Student {searchByValue(UID_MAPPING, id)} had contact with students {", ".join(list(map(lambda x: searchByValue(UID_MAPPING, x).capitalize(), content)))} and could have spread COVID to them.')
             else:
-                print(f'Student {id} didnot have additional contact with students.')
+                print(f'Student {id} did not have additional contact with students.')
 
         print("Report End")
     pass
 
 
 if __name__ == "__main__":
+    UID_MAPPING = getUidFromFile("students.json")
     main()
